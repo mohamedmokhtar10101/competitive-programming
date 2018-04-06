@@ -1,0 +1,42 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+
+int main()
+{
+
+	int n;
+	cin >> n;
+	string s;
+	rep(i, n)
+	{
+		cin >> s;
+		if (sz(s) == 3)
+		{
+			if (s[0] == 't' || s[sz(s) - 1] == 'o')
+				cout << 2 << endl;
+			else
+				cout << 1 << endl;
+		}
+		else
+			cout << 3 << endl;
+	}
+
+	return 0;
+}

@@ -1,0 +1,63 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+bool isPalindrom(string &s, int start, int end)
+{
+	for (int i = start; i< end; i++)
+	{
+		if (s[i] != s[end--])
+			return false;
+	}
+	return true;
+}
+
+int main()
+{
+
+	string s;
+	while (cin >> s)
+	{
+		int count = 0;
+		vector<bool> fr(26, false);
+		set<string> sety;
+		rep(i, sz(s) - 1)
+		{
+			reprngr(j, sz(s) - 1 , i + 1)
+			{
+				if (isPalindrom(s, i, j)) {
+					sety.insert(s.substr(i, j - i + 1));
+				}
+			}
+		}
+		rep(i, sz(s))
+		{
+			if (fr[tolower(s[i]) - 97] == false)
+			{
+				fr[tolower(s[i]) - 97] = true;
+				++count;
+			}
+			
+		}
+		cout << "The string " << "\'" << s << "\'" << " contains " << count + sz(sety) << " palindromes." << endl;
+	}
+
+
+	return 0;
+}

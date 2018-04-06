@@ -1,0 +1,112 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<map>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+int main()
+{
+	
+	string s;
+	while (cin >> s && s != string("#"))
+	{
+		map< char, int> chars;
+
+		bool flag = false;
+		reprngr(i, sz(s) - 1, 0)
+		{
+			string temp = s;
+			map< char, int> chars_t = chars ;
+			map< char, int>::iterator nextChar = chars_t.upper_bound(s[i]);
+			if ( nextChar != chars_t.end())
+			{
+				map< char, int>::iterator it = chars_t.find(s[i]);
+				if (it == chars_t.end())
+					chars_t.insert(make_pair(s[i], 1));
+				else
+					it->second++;
+
+				nextChar->second--;
+				temp[i] = nextChar->first;
+				if (nextChar->second == 0)
+					chars_t.erase(nextChar);
+				
+				reprng(j, i + 1, sz(s) - 1)
+				{
+
+					map< char, int>::iterator nextChar2 = chars_t.find('a');
+					if (nextChar2 != chars_t.end())
+					{
+						temp[j] = 'a';
+						nextChar2->second--;
+						if (nextChar2->second == 0)
+							chars_t.erase(nextChar2);
+					}
+					else
+					{
+						map< char, int>::iterator nextChar2 = chars_t.upper_bound('a');
+						if (nextChar2 != chars_t.end())
+						{
+							temp[j] = nextChar2->first;
+							nextChar2->second--;
+							if (nextChar2->second == 0)
+								chars_t.erase(nextChar2);
+						}
+						else
+						{
+							flag = true;
+							break;
+						}
+					}
+
+				}
+				if (flag == false)
+				{
+					cout << temp << endl;
+					flag = true;
+					break;
+				}
+				else
+				{
+					flag = false;
+				}
+
+
+			}
+			else
+			{
+				map< char, int>::iterator it = chars.find(s[i]);
+				if (it == chars.end())
+				{
+					chars.insert(make_pair(s[i], 1));
+				}
+				else
+					it->second++;
+
+
+
+			}
+
+		}
+		if (flag == false)
+			cout << "No Successor" << endl;
+
+	}
+
+	return 0;
+}

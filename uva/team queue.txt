@@ -1,0 +1,112 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+struct Member
+{
+	int team;
+	queue<int> q;
+	bool isIn;
+};
+
+int main()
+{
+
+
+	int t, num;
+	int count = 0;
+	string s;
+
+
+
+	while (cin>> t && t)
+	{
+		vector< Member > teams(t);
+		vector<int> members(1000000, 0);
+		rep(i, t)
+		{
+			int n;
+			long long temp;
+			cin>> n;
+
+			rep(j, n)
+			{
+				cin>> temp;
+				members[temp] = i;
+			}
+			teams[i].isIn= false;
+			teams[i].team = i;
+		}
+
+		queue< int > q;
+		bool flag = false;
+		while (cin>> s && s != string("STOP"))
+		{
+			if (s == string("ENQUEUE"))
+			{
+				cin>> num;
+
+				if (teams[members[num]].isIn)
+				{
+					teams[members[num]].q.push(num);
+				}
+				else
+				{
+					teams[members[num]].q.push(num);
+					teams[members[num]].isIn = true;
+					q.push(members[num]);
+
+				}
+
+
+			}
+			else
+			{
+				if (flag == false)
+				{
+					cout << "Scenario #" << count + 1 << endl;
+					flag = true;
+				}
+
+				if (sz(q) != 0)
+					if (sz(teams[q.front()].q) == 1)
+					{
+						teams[q.front()].isIn = false;
+						cout << teams[q.front()].q.front();
+						teams[q.front()].q.pop();
+						q.pop();
+					}
+					else
+					{
+						cout << teams[q.front()].q.front();
+						teams[q.front()].q.pop();
+					}
+				cout << endl;
+
+			}
+			cin.ignore();
+
+		}
+		cout << endl;
+		++count;
+	}
+
+
+	return 0;
+}

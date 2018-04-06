@@ -1,0 +1,73 @@
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+#include<list>
+#include<stack>
+#include<queue>
+#include<map>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprrng(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it)
+#define log2(n) (log10((long double)n) / log10((long double)2))
+#define mp make_pair
+typedef long long ll;
+bool check(ll min, vector<ll> stalls, int c)
+{
+	c--;
+	ll last = stalls[0];
+	reprng(i,1, sz(stalls) - 1)
+	{
+		if (stalls[i] - last >= min)
+		{
+			c--;
+			if (c == 0)
+				return true;
+			last = stalls[i];
+		}
+			
+	}
+	return false;
+}
+
+int main()
+{
+
+	int t;
+	ll l, h, mid;
+	l = 0;
+	h = 1000000001;
+
+	cin >> t;
+	rep(T, t)
+	{
+		l = 0;
+		h = 1000000001;
+		int n, c;
+		cin >> n >> c;
+		vector<ll> stalls(n);
+		rep(i, n)
+			cin >> stalls[i];
+		sort(all(stalls));
+		while (h > l)
+		{
+			mid = (l + h + 1) / 2;
+			if (check(mid, stalls,c))
+				l = mid;
+			else
+				h = mid - 1;
+
+		}
+		cout << (l? l: 1) << endl;
+	
+	}
+	return 0;
+}

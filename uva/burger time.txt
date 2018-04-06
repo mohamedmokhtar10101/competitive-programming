@@ -1,0 +1,82 @@
+#include<iostream>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+
+
+
+int main()
+{
+	ifstream in("input.txt");
+	ofstream out("output.txt");
+	string s;
+	int n;
+	while (cin>>n && n && cin >> s )
+	{
+		int min = -1;
+		int count = 1;
+		char first = ' ';
+		if (s.find('Z') != string::npos)
+			min = 0;
+		else
+			rep(i, n)
+		{
+			if (s[i] == 'R')
+			{
+				if (first == 'D') {
+					if (min == -1)
+						min = count;
+					if (count < min)
+						min = count ;
+					first = 'R';
+					count = 1;
+				}
+				else
+				{
+					first = 'R';
+					count = 1;
+				}
+			}
+			else if (s[i] == 'D')
+			{
+				if (first == 'R') {
+					if (min == -1)
+						min = count;
+					else if (count < min)
+						min = count;
+					first = 'D';
+					count = 1;
+				}
+				else
+				{
+					first = 'D';
+					count = 1;
+				}
+			}
+			else
+			{
+				if (first == 'R' || first == 'D')
+					++count;
+
+			}
+		}
+		cout << min<<endl;
+
+	}
+	getchar();
+	getchar();
+
+	return 0;
+}

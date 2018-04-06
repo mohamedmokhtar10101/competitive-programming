@@ -1,0 +1,68 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+
+int main()
+{
+
+	int t;
+	cin >> t;
+	cin.ignore();
+	cin.ignore();
+
+	string s;
+	rep(i, t)
+	{
+		bool flag = true;
+		while (getline(cin, s) && sz(s) !=  0) // sz of 0 becuase getline removes \n then if sz of s > 0 then some chars are read else then its just another \n (1 discarded with string and another discarded with empty string) ex:  asdfagsd\n\n read til the first \n s = asdfgsd then read till \n s= empty string 
+		{
+
+			int count = 0;
+			int last = 0;
+			string t;
+			if (flag)
+			{
+				cout << "Case #" << i + 1 << ":" << endl;
+				flag = false;
+			}
+
+			rep(j, sz(s))
+			{
+				if (s[j] == ' ')
+				{
+				    t = s.substr(last,j - last);
+					last = j + 1;
+					if (sz(t) >= count + 1)
+						cout << t[count++];
+
+				}
+			}
+			t = s.substr(last, sz(s) - last + 1);
+			if (sz(t) >= count + 1)
+				cout << t[count++];
+			cout << endl;
+
+		}
+		if (i != t - 1)
+			cout << endl;
+	}
+
+	return 0;
+}

@@ -1,0 +1,52 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+
+int main()
+{
+
+	string s;
+
+	while (getline(cin, s) && s != string("DONE"))
+	{
+	
+		bool palindrom = true;
+		string t;
+		rep(i, sz(s))
+		{
+			if (isalpha(s[i]))
+				t.push_back(tolower(s[i]));
+	    }
+		rep(i, sz(t) / 2)
+		{
+			if (t[i] != t[sz(t) - 1 - i])
+			{
+				palindrom = false;
+				break;
+			}
+		}
+		if (palindrom)
+			cout << "You won't be eaten!" << endl;
+		else
+			cout << "Uh oh.." << endl;
+
+	}
+
+	return 0;
+}

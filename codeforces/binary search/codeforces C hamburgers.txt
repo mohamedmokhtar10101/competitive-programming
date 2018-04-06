@@ -1,0 +1,72 @@
+#include<iostream>
+#include<fstream>
+#include<sstream>
+#include<iterator>
+#include<map>
+#include<unordered_map>
+#include<vector>
+#include<stack>
+#include<queue>
+#include<deque>
+#include<list>
+#include<algorithm>
+#include<cmath>
+#include<cctype>
+#include<cstring>
+#include<vector>
+#include<string>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it)  //__typeof(c.begin())
+#define mp make_pair
+typedef long long ll;
+ 
+bool check(ll max, ll rub , vector<int> & ing , vector<int> &has, vector<int> prices)
+{
+	rep(i, sz(ing))
+	{
+		if (ing[i] == 0) continue;
+ 
+		if (has[i] / ing[i] < max)
+			rub -= (ing[i] * max - has[i]) * prices[i] ;
+		if (rub < 0) return false;
+	}
+	return true;
+}
+int main()
+{
+	string s;
+	cin >> s;
+	vector<int> ing(3);
+	vector<int> has(3);
+	vector<int> p(3);
+	ll rub;
+	rep(i, 3)
+		cin >> has[i];
+	rep(i, 3)
+		cin >> p[i];
+	rep(i, sz(s))
+		if (s[i] == 'B') ing[0]++;
+		else if (s[i] == 'S') ing[1]++;
+		else  ing[2]++;
+ 
+	cin >> rub;
+	ll l, h, mid;
+	l = 0;
+	h = 2000000000000;
+	while (h > l)
+	{
+		mid = (l + h + 1) / 2;
+		if (check(mid, rub, ing, has, p))
+			l = mid;
+		else
+			h = mid - 1;
+	}
+	cout << l << endl;
+	return 0;
+}

@@ -1,0 +1,78 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+struct SquaresSum
+{
+	int a;
+	int b;
+	int sum;
+};
+bool isSquare(int num)
+{
+	int sqr =(int) sqrt(num);
+	return  sqr * sqr == num;
+}
+int main()
+{
+	ifstream in("input.txt");
+	ofstream out("output.txt");
+	int n, k;
+	SquaresSum squares[223][223];
+	int result[3];
+	rep(i, 223)
+		rep(j, 223)
+	    {
+		squares[i][j].a = i;
+		squares[i][j].b = j;
+		squares[i][j].sum = i * i + j * j;
+	    }
+
+	cin >> n;
+	rep(c, n)
+	{
+		bool flag = false;
+		cin >> k;
+		
+		rep(i, 223)
+		{
+			rep(j, 223)
+			{
+				if (isSquare(k - squares[i][j].sum))
+				{
+					result[0] = squares[i][j].a;
+					result[1] = squares[i][j].b;
+					result[2] = sqrt(k - squares[i][j].sum);
+					sort(result , result + 3);
+					cout << result[0] << " " << result[1] << " " << result[2] << endl;
+					flag = true;
+					break;
+				}
+			}
+			if (flag == true)
+				break;
+		}
+		if (!flag)
+			cout << -1 << endl;
+
+
+	}
+	getchar();
+	getchar();
+
+	return 0;
+}

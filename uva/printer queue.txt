@@ -1,0 +1,66 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<queue>
+#include<stack>
+#include<map>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+
+int main()
+{
+
+
+	int t;
+	cin >> t;
+	rep(k, t)
+	{
+		int n, m;
+		cin >> n >> m;
+		vector<int> line(n);
+		rep(c, n)
+		{
+			cin >> line[c];
+		}
+		int i = 0;
+		int count = 0;
+		while (1)
+		{
+			pair<int, int> max;
+			max.second = 0;
+			max.first = 0;
+			for (int c = 0, index = i; c < n; c++, index = (index + 1) % n)
+			{
+				if (line[index] > max.first)
+				{
+					max.first = line[index];
+					max.second = index;
+				}
+
+			}
+			i = (max.second + 1) % n;
+			++count;
+			line[max.second] = 0;
+
+			if (max.second == m)
+			{
+				cout << count << endl;
+				break;
+			}
+			
+		}
+	}
+	return 0;
+}

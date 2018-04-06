@@ -1,0 +1,49 @@
+
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it) 
+typedef long long ll;
+void reverse(string &s,int start, int end)
+{
+	reprngr(i, end, start)
+	{
+		cout << s[i];
+	}
+}
+
+int main()
+{
+
+	string s;
+	while(getline(cin,s))
+	{
+		int last = 0;
+		rep(i, sz(s))
+		{
+			if (s[i] == ' ')
+			{
+				reverse(s, last, i - 1);
+				cout << " ";
+				last = i + 1;
+			}
+			
+
+		}
+		reverse(s, last, sz(s) - 1);
+		cout << endl;
+	}
+
+	return 0;
+}

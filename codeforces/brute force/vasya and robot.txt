@@ -1,0 +1,60 @@
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+#include<list>
+#include<stack>
+#include<queue>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it)
+#define log2(n) (log10((long double)n) / log10((long double)2))
+typedef long long ll;
+
+int main()
+{
+	int n, L, R, Ql, Qr;
+	cin >> n >> L >> R >> Ql >> Qr;
+	vector<int> w(n);
+	vector<ll> sumW(n);
+	ll sum = 0;
+	rep(i, n)
+	{
+		cin >> w[i];
+		sumW[i] = w[i] + sum;
+		sum += w[i];
+	}
+	// brute force;
+	//  special case :this step to get all of weights with the right hand, to get all with left hand , when loop reaches n -1 left count is n and we get all weights with left hand
+	ll minAll = sumW[n - 1] * R + (n - 1) * Qr;
+	rep(i, n)
+	{
+		ll sumL = sumW[i];
+		ll sumR = sumW[n - 1] - sumW[i];
+		sumL *= L;
+		sumR *= R;                    // (1 2 3 4 5)
+		int lNum = i + 1;            // left count  first iteration 1 {1} -> right count  5 - 1 = 4 {2, 3, 4, 5}
+		int rNum = n - lNum;        // second iteration left count 2 {1, 2} -> right count 5 - 2 = 3 {3, 4, 5} and so on
+		if (lNum > rNum)           // if left count > right count so then l r l r .. till right count then all remaining  - 1 should be l l .... so we multiply remaining - 1 by Ql and so do we do if right count > left count
+			sumL += (lNum - rNum - 1) * Ql;
+		else if (rNum > lNum)
+			sumR += (rNum - lNum - 1) * Qr;
+
+		sum = sumL + sumR;
+		minAll = min(minAll, sum);
+
+	}
+
+	cout << minAll << endl;
+
+
+	return 0;
+}

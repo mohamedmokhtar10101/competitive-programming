@@ -1,0 +1,49 @@
+
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+typedef long long ll;
+
+int main()
+{
+	
+	int t;
+	long  n;
+	scanf("%d",&t);
+	rep(i, t)
+	{
+		scanf("%ld", &n);
+			vector< pair<long long , long long> > p(n);
+		for(long  j = 0; j < n; j++)
+		{
+			scanf("%lld %lld",&p[j].first, &p[j].second);
+		}
+		std::sort(all(p), [](pair<long long, long long> a, pair<long long, long long> b) {
+			if (a.first < b.first)
+				return true;
+			else if (a.first > b.first)
+				return false;
+			else
+			{
+				if (a.second > b.second)
+					return true;
+				else if (a.second < b.second)
+					return false;
+				else
+					return true;
+			}
+		
+		});
+		rep(j, n)
+		{
+			printf("%lld %lld\n",p[j].first ,p[j].second );;
+		}
+	}
+	
+
+	return 0;
+}
