@@ -1,0 +1,54 @@
+#include <iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+//compare function used by the sort function as a a criteria
+//it returns the bigger in value (key=>value pair)
+bool compare(const pair<int,int> &a, const pair<int,int> &b)
+{
+ return (a.second>b.second); 
+}
+int main()
+{
+  long long n ,sumN=0,sum=0;// sumN to hold the carried matches box , sum is to hold sum of all carried matches
+  int m ,first,second;
+
+  vector<pair <int,int> > arr; // vector of all key=>value (matchesBox=>matchesNumber)
+  cin>>n>>m;// input n(the capacity of carrying matchesBox) and m(the number of containers)
+  for(int i=0;i<m;i++) // getting all containers'  matchesBox and matches
+  {
+  cin>>first;
+  cin>>second;
+  arr.push_back(make_pair(first,second)); // pushing them to the vector
+  }
+  sort(arr.begin(),arr.end(),compare); // sort them such as the biggest in matches will be the first ex: 
+ /*
+ 7 3
+ 5 10
+ 2 5
+ 3 6
+ it will be
+ 5 10 biggest matchesNumber 10
+ 3 6   second biggest matchesNumber 6
+ 2 5 
+ */
+for(int i=0;i<m;i++)   // iterating through all containers to get matchesBox and matches in each one
+{
+
+ if(arr[i].first<=(n-sumN)) // if the current matcheBox is less or equal to the remaining matchesBox that the buglar can carry  then
+
+ {
+    sumN+=arr[i].first; // carry them all
+    sum+=(arr[i].first*arr[i].second); // multiply matchesBoxes by matches in each then add them to the sum of all matches
+ }
+else         // if current matchesBox is bigger then
+{
+    sum+=((n-sumN)*arr[i].second);//carry all matchesBoxes that equal to the remaining capacity multiplayed by matches in each one
+    sumN=n; // i am done now i carry all my capacity then sumN (what i'm actually carrying) is equal to my capacity
+}
+if(sumN==n) // if  current carried matchesBox is equal to capacity then iam done with this 
+break; //let's go home
+}
+cout<<sum; // print all matches
+    return 0;
+}

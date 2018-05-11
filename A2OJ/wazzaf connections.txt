@@ -1,0 +1,189 @@
+#include <iostream>
+#include<vector>
+#include<map>
+#include<iterator>
+using namespace std;
+void getAdjacents(multimap< int, int > &connections, int vertix, vector< bool > &blocked, vector< int > &adjacents)
+{
+
+    //typedef multimap< int, int >::iterator Iterator;
+    multimap< int, int >::iterator it;
+    pair< int, int > p;
+    pair<  multimap< int, int >::iterator, multimap< int, int >::iterator > iterpair;
+
+     iterpair = connections.equal_range(vertix);
+     it = iterpair.first;
+
+    for (; it != iterpair.second; ++it)
+    {
+        p = *it;
+        if (!blocked[p.first] && !blocked[p.second])
+            adjacents.push_back(p.second);
+    }
+
+
+}
+void makeItsRversed(multimap< int, int> &connections, multimap< int, int> &resultConnections)
+{
+
+    for (multimap< int, int>::iterator it = connections.begin(); it != connections.end(); it++)
+    {
+        resultConnections.insert(*it);
+        resultConnections.insert(make_pair((*it).second, (*it).first));
+    }
+}
+pair< int, int> getMin(map< int, int> &theMap)
+{
+    map< int, int>::iterator it;
+    pair< int, int> p;
+    pair< int, int> minPair;
+    it = theMap.begin();
+    p = *it;
+
+    minPair.first = p.first;
+    minPair.second = p.second;
+
+    for (it = ++it; it != theMap.end(); it++)
+    {
+        p = *it;
+        if (p.second < minPair.second)
+        {
+            minPair.first = p.first;
+            minPair.second = p.second;
+        }
+    }
+    return minPair;
+}
+
+void makeNodes(map< int, int> &nodes, int n)
+{
+    for (int i = 0; i < n; i++)
+        nodes.insert(make_pair(i, 2147483646));
+}
+void update(map< int, int > &m, int key, int value)
+{
+
+    map< int, int >::iterator it = m.find(key);
+    if (it != m.end())
+        (*it).second = value;
+
+}
+void findShortest(map< int, int > &nodes, multimap< int, int > &connections, map< int, int > &parents, vector< bool > &blocked, int source, int init)
+{
+
+    vector< pair< int, int> > distances;
+    map< int, int >::iterator it;
+    vector< int >  adjacents;
+    pair< int, int > minNode;
+    int current = source;
+    int currentAdjacent;
+    update(nodes, source, 0);
+    distances.push_back(make_pair(source, 0));
+    parents.insert(make_pair(source, init));
+    nodes.erase(source);
+
+    while (!nodes.empty())
+    {
+
+        getAdjacents(connections, current, blocked, adjacents);
+
+        for (int i = 0, sum = 0, size = adjacents.size(); i < size; i++)
+        {
+
+            currentAdjacent = adjacents[i];;
+            it = nodes.find(currentAdjacent);
+
+            if (it == nodes.end())
+                continue;
+
+            sum = 1 + distances[distances.size() - 1].second;
+
+            if (sum < (*it).second)
+            {
+
+                (*it).second = sum;
+                it = parents.find(currentAdjacent);
+
+                if (it != parents.end())
+                    (*it).second = distances[distances.size() - 1].first;
+                else
+                    parents.insert(make_pair(currentAdjacent, distances[distances.size() - 1].first));
+            }
+
+        }
+        adjacents.clear();
+        minNode = getMin(nodes);
+        distances.push_back(make_pair(minNode.first, minNode.second));
+        current = minNode.first;
+        nodes.erase(minNode.first);
+    }
+
+}
+int getNodeToNodeCount(map< int, int > parents, int source, int destination)
+{
+    map< int, int >::iterator it;
+    int count = 0;
+    while (destination != source)
+    {
+        it = parents.find(destination);
+        if (it == parents.end())
+            break;
+
+        count++;
+        destination = (*it).second;
+    }
+    return count;
+}
+
+int main()
+{
+
+    multimap< int, int > connections;
+    multimap< int, int > connections1;
+    map< int, int > nodes;
+    map< int, int > shortestPath;
+    int t, n, m;
+    int user1, user2;
+    bool blockedVar;
+
+
+    cin >> t;
+    for (int i = 0; i < t; i++)
+    {
+        cin >> n >> m;
+        vector< bool > blocked(n + 1);
+
+
+        for (int j = 1; j < n; j++)
+        {
+            cin >> blockedVar;
+            blocked[j] = blockedVar;
+        }
+
+        for (int j = 0; j < m; j++)
+        {
+            cin >> user1 >> user2;
+            connections.insert(make_pair(user1, user2));
+        }
+
+        makeNodes(nodes, n);
+        makeItsRversed(connections, connections1);
+        findShortest(nodes, connections1, shortestPath, blocked, 0, -1);
+
+        for (int j = 1, count; j < n; j++)
+        {
+            count = getNodeToNodeCount(shortestPath, 0, j);
+            if (count == 0)
+                cout << -1 << " ";
+            else
+                cout << count << " ";
+        }
+        cout << endl;
+        connections.clear();
+        connections1.clear();
+        shortestPath.clear();
+        nodes.clear();
+
+    }
+    return 0;
+}

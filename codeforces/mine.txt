@@ -1,0 +1,28 @@
+#include "mine.h"
+void permutation (string x , string rest)
+{
+
+    if(rest == "")
+    cout<<x<<endl;
+    else
+    for(int i=0; i<rest.length();i++)
+    {
+        string next = x + rest[i];
+        string remaining = rest.substr(0,i)+rest.substr(i+1);
+        recPermute(next,remaining);
+
+    }
+}
+void subSet (string x , string rest)
+{
+
+    if(rest == "")
+    cout<<x<<endl;
+    else{
+
+        string remaining = rest.substr(1);
+        subSet(x+rest[0],remaining);
+        subSet(x,remaining);
+
+    }
+}

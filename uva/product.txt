@@ -1,0 +1,99 @@
+
+
+#define INC
+#include<iostream>
+#ifdef INC
+#include<fstream>
+#include<sstream>
+#include<iterator>
+#include<map>
+#include<unordered_map>
+#include<vector>
+#include<stack>
+#include<queue>
+#include<deque>
+#include<list>
+#include<algorithm>
+#include<cmath>
+#include<cctype>
+#include<cstring>
+#endif
+#include<vector>
+#include<string>
+#include<cstdio>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprngr(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(__typeof(c.begin()) it=c.begin();it!=c.end();++it)
+#define mp make_pair
+typedef long long ll;
+#define MOHAMED_MOKHTAR
+#ifdef MOHAMED_MOKHTAR
+ifstream in("input.txt");
+#endif
+
+int main()
+{
+	ostream_iterator<int> output(cout, "");
+	
+	string number1;
+	string number2;
+	string * great;
+	string * less;
+	cin >> number1 >> number2;
+	while (!cin.eof())
+	{
+	
+		if (sz(number1) >= sz(number2))
+		{
+			great = &number1;
+			less = &number2;
+		}
+		else
+		{
+			great = &number2;
+			less = &number1;
+		}
+		vector<short> result(2 * great->size() + 1);
+		for (int i = sz((*less)) - 1, zeroes = 0, count, carry = 0; i >= 0; --i, ++zeroes)
+		{
+			count = sz(result) - 1 - zeroes;
+			for (int j = sz((*great)) - 1; j >= 0; --j, --count)
+			{
+				int temp = result[count] + ((*less)[i] - '0') * ((*great)[j] - '0') + carry;
+				carry = 0;
+				if (temp >= 10)
+				{
+					carry = temp / 10;
+					temp %= 10;
+
+				}
+				result[count] = temp;
+			}
+			result[count] = carry;
+			carry = 0;
+
+		}
+		for (int i = 0, flag = 0; i < sz(result) - 1; ++i)
+		{
+			if (result[i] != 0)
+				flag = 1;
+			if (flag)
+			{
+				cout << result[i];
+			}
+		}
+		cout << result[sz(result) - 1];
+		cout << endl;
+		cin >> number1 >> number2;
+
+	}
+
+	return 0;
+
+}
+

@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <math.h>
+void print(int first , int num, int difference);
+int main()
+{
+    int first = 1;
+    int difference = 2 ;
+    int numberOfSoldiers;
+    int num ;
+    int steps;
+    int counter;
+    printf("Enter the number of guilties  in the circle : ");
+    scanf("%d" , &numberOfSoldiers);
+    num = numberOfSoldiers;
+    steps = log2(numberOfSoldiers) ;
+
+    for(counter = 0; counter < steps;counter++,num /= 2, difference *= 2)
+    {
+
+
+        if(num % 2 == 1)
+        {
+           first += difference;
+
+        }
+ print(first,numberOfSoldiers,difference);
+
+
+
+
+    }
+    printf("the last one standing (not killed) is %d\n",first);
+    getchar();
+    getchar();
+    return 0;
+}
+void print(int first , int num, int difference)
+{
+    int i,s;
+    printf("the first is %d the difference is %d\n",first,difference);
+    for(i = first , s = 0;i <= num ; i += difference , s++ )
+    {
+        if(s % 26 == 0)
+           printf("\n");
+
+        printf("%d ",i);
+    }
+    printf("\n\n");
+}

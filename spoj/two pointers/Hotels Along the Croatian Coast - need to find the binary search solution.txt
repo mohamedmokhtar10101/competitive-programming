@@ -1,0 +1,52 @@
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+#include<list>
+#include<stack>
+#include<queue>
+#include<map>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprrng(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it)
+#define log2(n) (log10((long double)n) / log10((long double)2))
+#define swap(a,b) a = a + b, b = a - b, a = a - b
+#define mp make_pair
+typedef long long ll;
+
+int main()
+{
+
+	ll n, k;
+	cin >> n >> k;
+	vector<ll>hotels(n);
+	rep(i, n)
+		cin >> hotels[i];
+	ll l, r;
+	l = 0;
+	r = 0;
+	ll sum = 0;
+	ll maxi = 0;
+	while (l < n)
+	{
+		
+		while (r < n && hotels[r] + sum <= k)
+		{
+			sum += hotels[r];
+			r++;
+		}
+		maxi = max(maxi, sum);
+		sum -= hotels[l];
+		l++;
+	}
+	cout << maxi << endl;
+	return 0;
+}

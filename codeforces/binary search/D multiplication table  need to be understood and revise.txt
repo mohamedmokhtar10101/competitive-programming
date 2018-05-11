@@ -1,0 +1,58 @@
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+#include<list>
+#include<stack>
+#include<queue>
+#include<map>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprrng(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it)
+#define log2(n) (log10((long double)n) / log10((long double)2))
+#define swap(a,b) a = a + b, b = a - b, a = a - b
+#define mp make_pair
+typedef long long ll;
+
+bool check(ll n,ll m, ll k,ll number)
+{
+	ll count = 0;
+	reprng(i,1, min(n,number))
+		count += min( (number - 1) / i, m);
+	
+	if (count < k)
+		return true;
+	else
+		return false;
+	getchar();
+}
+int main()
+{
+
+
+	ll n, m, k;
+	cin >> n >> m >> k;
+	ll l, h, mid;
+	l = 1;
+	h = n * m;
+
+	while (h > l)
+	{
+		mid = (l + h + 1) / 2;
+		if (check(n, m, k,mid))
+			l = mid;
+		else
+			h = mid - 1;
+	}
+	cout << l << endl;
+
+	return 0;
+}

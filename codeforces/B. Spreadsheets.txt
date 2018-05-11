@@ -1,0 +1,120 @@
+#include <iostream>
+#include <cmath>
+#include<cctype>
+#include<cstdlib>
+#include<string>
+using namespace std;
+bool getType(const string &s,int *pos)
+{
+    for(int i=s.size()-1;i>=0;i--)
+    {
+        if(isalpha(s[i]))
+        {
+
+            if(i==0)
+            {
+                *pos = i+1;
+                return false;
+
+            }
+            else
+            {
+
+                if(isdigit(s[i-1]))
+                  {
+                  *pos = i+1;
+                  return true;
+                  }
+                  else
+                  {
+                     *pos = i+1;
+                      return  false;
+                  }
+
+            }
+
+
+
+            break;
+        }
+
+    }
+    return false;
+
+
+
+}
+
+typedef long long ll;
+int getDigits(ll number){for(ll i=26,sum=i,c=1;;sum+=i*26,i*=26,c++) if(number<=sum) return c;}
+void system2(string s,int pos)
+{
+ int digits;
+ ll n;
+ string out="";
+ n = atol(s.substr(pos).c_str());
+ digits = getDigits(n);
+  for(int i=1,c=pow((long double)26,digits);i<=digits;i++,c/=26)
+  {
+        if(n/c ==1){
+        out.push_back('Z');
+         n %= c;
+        }
+
+        else if(n/(c/26)==0)
+        {
+            for(int j=i-2,t=0;;j--,t++)
+            {
+                out[j+1]='Z';
+                if(out[j]-'A'!=0)
+                {
+                    out[j]--;
+                    break;
+                }
+            }
+            n+= c;
+           out.push_back(n/(c/26) -1+'A');
+           n %= c/26;
+        }
+
+        else{
+       out.push_back(n/(c/26) -1+'A');
+        n %= c/26;
+        }
+     }
+
+  cout<<out<<s.substr(1,pos-2);
+}
+void system1(string s,int pos)
+{
+    string s2 = s.substr(0,pos);
+    int size = s2.size();
+    ll sum=0;
+    for(int i=size-1,c=1;i>=0;i--,c*=26) sum += (s2[i]-'A'+1)*c;
+
+    cout<<"R"<<s.substr(pos)<<"C"<<sum;
+}
+int main()
+{
+  string s;
+  int pos=0;
+  ll cases;
+  cin>>cases;
+  for(int j =0;j<cases;j++)
+  {
+  cin>>s;
+  if(getType(s,&pos)==true)
+  system2(s,pos);
+  else
+  system1(s,pos);
+
+  cout<<endl;
+  }
+
+
+
+
+
+
+    return 0;
+}

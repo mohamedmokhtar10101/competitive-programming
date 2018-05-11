@@ -1,0 +1,155 @@
+#include <iostream>
+#include<fstream>
+#include<vector>
+#include<algorithm>
+#include<string>
+using namespace std;
+typedef long long ll;
+bool compare(pair<ll,ll> a,pair<ll,ll> b)
+{
+    if(a.first<b.first)
+      return true;
+    else if (a.first ==b.first)
+    return a.second<b.second;
+    else
+    return false;
+}
+ll binarySearch(vector< pair<ll,ll> >&arr,ll value)
+{
+    ll low = 0;
+    ll high = arr.size()-1;
+    ll mid ;
+    while(low<=high)
+    {
+        mid =  low + (high- low)/2;
+        if(arr[mid].first == value)
+        return mid;
+        else if(value <arr[mid].first)
+        high = mid -1;
+        else
+        low = mid+1;
+        }
+        return -1;
+}
+bool searchInRange(ll value,ll min ,ll max,vector< pair<ll,ll> > &arr)
+{
+ll pos = binarySearch(arr,value);
+if (pos == -1)
+return false;
+else if(arr[pos].second<min || arr[pos].second>max)
+for(int i=pos-1,j=pos+1;;)
+{
+    if(i!=-1){
+     if(arr[i].first ==value && arr[i].second >=min &&arr[i].second <=max)
+     {
+         return true;
+     }
+
+     i--;
+    }
+    if(j!=-1){
+    if(arr[j].first ==value && arr[j].second >=min &&arr[j].second <=max)
+    {
+    return true;
+    }
+
+
+    j++;
+    }
+
+    if(arr[i].first!=value)
+    i=-1;
+    if(arr[j].first !=value || j==arr.size())
+    j=-1;
+if(i==-1 && j==-1){
+return false;
+
+}
+}
+else
+return true ;
+}
+bool isDividable(vector< pair<ll,ll> >&arr,ll diff ,ll min,ll max,bool backward)
+{
+    ll n;
+    if(backward)
+    {
+        max=-1;
+        n=min;
+    }
+    else
+     n=arr.size();
+
+
+     if(diff==0)
+    {
+        return  true;
+
+    }
+    else if(diff<0)
+{
+    diff*=-1;
+    if(searchInRange(diff,min,max,arr))
+    {
+        return true;
+    }
+
+
+}
+else
+{
+       if(searchInRange(diff,max+1,n-1,arr))
+    {
+        return true;
+    }
+}
+return false;
+
+}
+
+int main()
+
+{
+bool flag=false;
+vector< pair<ll,ll> > arr;
+vector<ll> sumArr;
+ll n ,sum=0,temp;
+cin>>n;
+for(ll i =0 ;i<n;i++)
+{
+
+    cin>>temp;
+    arr.push_back(make_pair(temp,i));
+    sum+=temp;
+    sumArr.push_back(sum);
+}
+sort(arr.begin(),arr.end(),compare);
+
+if(sum%2!=0)
+cout<<"NO";
+else{
+sum/=2;
+for(ll i=0,j=n-1;i<n;i++,j--)
+{
+    if(isDividable(arr,sum-sumArr[i],0,i,false) )
+    {
+       flag =true;
+       break;
+    }
+    if(j!=0)
+    if(isDividable(arr,sum-(sumArr[n-1]-sumArr[j-1]),j,n-1,true))
+    {
+               flag =true;
+       break;
+    }
+
+
+
+}
+if(flag)
+cout<<"YES";
+else
+cout<<"NO";
+}
+    return 0;
+}

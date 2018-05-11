@@ -1,0 +1,74 @@
+#include <iostream>
+#include<algorithm>
+#include<vector>
+#include<climits>
+using namespace std;
+
+void print(vector<long long> arr)
+{
+
+    for(int i=0;i<arr.size();i++)
+    cout<<arr[i]<<" ";
+    cout<<endl;
+}
+long long smallest(vector<long long>&arr,char sy[])
+{
+    static long long s=LLONG_MAX;
+    static vector<long long>*arr2=NULL;
+    long long temp;
+    if(arr.size()==1)
+    {
+
+         return *(arr.begin());
+
+    }
+
+    for(int i=0;i<arr.size()-1;i++)
+{
+
+    for(int k =i+1;k<arr.size();k++)
+    {
+        arr2 = new vector<long long>(arr);
+        cout<<"after inserting " <<(*arr2)[i]<<sy[4-(*arr2).size()]<<(*arr2)[k]<<"       ";
+        if(sy[4-(*arr2).size()]=='+')
+     (*arr2).insert((*arr2).begin(),(*arr2)[i]+(*arr2)[k]);
+     else
+      (*arr2).insert((*arr2).begin(),(*arr2)[i]* (*arr2)[k]);
+       print(*arr2);
+      (*arr2).erase((*arr2).begin()+i+1);
+      (*arr2).erase((*arr2).begin()+k);
+      cout<<"after erasing ";print(*arr2);
+      temp = smallest(*arr2,sy);
+      delete arr2;
+      arr2=NULL;
+      if(temp<s)
+      {
+        s = temp;
+      }
+
+cout<<"the smallest is "<< s<<endl;;
+    }
+
+
+    }
+    return s;
+}
+int main()
+{
+    vector<long long> arr;
+    long long temp;
+    char s[4]="";
+    for(int i=0;i<4;i++)
+    {
+        cin>>temp;
+        arr.push_back(temp);
+    }
+    for(int i=0;i<3;i++)
+    cin>>s[i];
+
+   cout<<smallest(arr,s);
+
+
+
+    return 0;
+}

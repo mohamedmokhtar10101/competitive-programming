@@ -1,0 +1,80 @@
+#include<iostream>
+#include<set>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<fstream>
+#include<list>
+#include<stack>
+#include<queue>
+#include<map>
+using namespace std;
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define sz(v) ((int)v.size())
+#define rep(i,n) for(int i = 0; i < (int)(n); ++i)
+#define reprng(i,a,b) for(int i = a; i <= (int)(b); ++i)
+#define reprrng(i,n,a) for(int i = n;i >= (int)(a); --i)
+#define For(it,c) for(auto  it=c.begin();it!=c.end();++it)
+#define log2(n) (log10((long double)n) / log10((long double)2))
+#define swap(a,b) a = a + b, b = a - b, a = a - b
+#define mp make_pair
+typedef long long ll;
+
+string toString(ll n)
+{
+	string s;
+
+	while (n)
+	{
+		s.push_back(n % 10 + '0');
+		n /= 10;
+	}
+	return s;
+}
+
+int main()
+{
+
+	ll n;
+	cin >> n;
+	ll sq = sqrt((double)n);
+	vector < bool > digits(11);
+	string s = toString(n);
+	rep(i, sz(s))
+		digits[s[i] - '0'] = true;
+	bool flag = true;
+	reprrng(i, sq,1)
+	{
+		ll square = i* i;
+		string num = toString(square);
+		int k = 0;
+		rep(j, sz(s))
+		{
+			
+		
+			if (num[k] == s[j])
+				k++;
+			if (k == sz(num))
+				break;
+			
+			
+		}
+
+		if(k == sz(num))
+		{
+			cout << sz(s) - sz(num);
+			flag = false;
+			break;
+		}
+			
+		
+	}
+	if (flag)
+		cout << -1;
+	
+	getchar();
+	getchar();
+	return 0;
+}

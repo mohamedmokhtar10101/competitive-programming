@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+using namespace std;
+typedef long long ll;
+int main()
+{
+string x;
+ll sum,s;
+int count=0;
+cin>>x;
+s=x.size();
+if(s<2)
+cout<<0;
+else
+{
+    do
+    {
+        sum=0;
+    for(ll i=0;i<s;i++)
+    {
+        sum+=x[i]-'0';
+    }
+
+    x= to_string(sum);
+    s=x.size();
+    count++;
+    }while(sum>=10);
+    cout<<count;
+}
+
+
+    return 0;
+}

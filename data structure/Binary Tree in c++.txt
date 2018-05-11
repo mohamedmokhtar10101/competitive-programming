@@ -1,0 +1,229 @@
+#include <iostream>
+
+using namespace std;
+
+template <class A>class BinaryTree;
+template <class A >
+class Leaf
+{
+      friend class BinaryTree<A>;
+
+  private :
+   Leaf<A>* left;
+   Leaf<A>* right;
+   A value;
+   int v;
+  public :
+   Leaf( Leaf<A>* l, Leaf<A>* r,A val,int vl);
+   Leaf<A>* getLeft();
+   Leaf<A>* getRight();
+   A getValue();
+   void setValue(A val);
+
+};
+
+template <class A>
+   Leaf<A>::Leaf( Leaf<A>* l, Leaf<A>* r,A val,int vl)
+  :value(val),left(l),right(r),v(vl)
+  {
+
+
+  }
+  template <class A>
+  Leaf<A>* Leaf<A>::getLeft()
+  {
+      return left;
+  }
+ template <class A>
+  Leaf<A>* Leaf<A>::getRight()
+  {
+
+      return right;
+  }
+template <class A>
+  A Leaf<A>::getValue()
+  {
+      return value;
+
+  }
+template<class A>
+void Leaf<A>::setValue(A val)
+{
+
+  value=val;
+}
+template <class A>
+class BinaryTree
+{
+  private :
+    Leaf<A>* root;
+    int count;
+    void addAux(Leaf<A>** root,Leaf<A> * node);
+    void traverseTreeAux(Leaf<A> * root,void(*function)(A node));
+    void removeTreeAux(Leaf<A> ** root);
+    Leaf<A> *searchAux(Leaf<A>* root,int value);
+  public :
+  BinaryTree();
+  void add(A value,int v);
+  void traverseTree(void(*function)(A node));
+  int getSize();
+  Leaf<A> * getRoot();
+  void removeTree();
+  Leaf<A> *search(int value);
+
+};
+template<class A>
+void BinaryTree<A>::addAux(Leaf<A>** root,Leaf<A> * node)
+    {
+
+        if(!*root)
+        {
+
+            *root=node;
+        }
+        else if(node->v<(*root)->v)
+           addAux(&(*root)->left,node);
+        else
+           addAux(&(*root)->right,node);
+
+    }
+
+template<class A>
+void BinaryTree<A>::traverseTreeAux(Leaf<A> * root,void(*function)(A node))
+  {
+      if(root)
+      {
+
+          traverseTreeAux(root->left,function);
+          function(root->value);
+          traverseTreeAux(root->right,function);
+
+      }
+
+
+
+  }
+template<class A>
+BinaryTree<A>::BinaryTree()
+  :count(0)
+  {
+ root=NULL;
+
+  }
+
+template<class A>
+void BinaryTree<A>::add(A value,int v)
+  {
+
+   Leaf<A> * node = new Leaf<A> (NULL,NULL,value,v);
+
+   addAux(&root,node);
+
+   count++;
+
+
+
+
+  }
+template<class A>
+void BinaryTree<A>::traverseTree(void(*function)(A node))
+  {
+
+ traverseTreeAux(root,function);
+  }
+
+template<class A>
+int BinaryTree<A>::getSize()
+  {
+      return count;
+
+  }
+template<class A>
+Leaf<A> * BinaryTree<A>::getRoot()
+  {
+
+      return root;
+  }
+template<class A>
+void BinaryTree<A>::removeTreeAux(Leaf<A> ** root)
+{
+    if(*root)
+    {
+
+        removeTreeAux(&(*root)->left);
+        removeTreeAux(&(*root)->left);
+        delete *root;
+
+    }
+
+}
+template<class A>
+void BinaryTree<A>::removeTree()
+{
+    removeTreeAux(&root);
+}
+template <class A>
+Leaf<A> *BinaryTree<A>::search(int value)
+  {
+
+    return searchAux(root,value);
+
+  }
+template<class A>
+Leaf<A> *BinaryTree<A>::searchAux(Leaf<A>* root,int value)
+{
+    if(!root)
+    {
+        return NULL;
+    }
+
+    if(root->v==value)
+    {
+        return  root;
+    }
+    if(value<root->v)
+    {
+         searchAux(root->left,value);
+    }
+    else
+    {
+          searchAux(root->right,value);
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+void print(char a)
+{
+
+
+    cout<<a<<endl;
+
+}
+
+
+
+
+int main()
+{
+    BinaryTree<char> tree;
+tree.add('a',1);
+tree.add('b',2);
+ tree.add('c',3);
+tree.add('d',4);
+ tree.add('f',5);
+ tree.removeTree();
+
+    tree.traverseTree(print);
+    cout<<(tree.search(2)->getValue());
+
+    return 0;
+}

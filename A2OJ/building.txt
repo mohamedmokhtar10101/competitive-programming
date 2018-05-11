@@ -1,0 +1,74 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<algorithm>
+
+
+using namespace std;
+
+int main()
+{
+
+
+
+
+	int t;
+	int n;
+	map<long long, long long> m;
+	map<long long, long long >::iterator it;
+	
+	int count = 0;
+	cin >> t;
+
+	for (int i = 0, d; i < t; ++i)
+	{
+		cin >> n;
+		vector<long long >arr(n);
+		for (int j = 0; j < n; j++)
+		{
+			cin >> arr[j];
+			it = m.find(arr[j]);
+			if (it != m.end())
+			{
+				(*it).second++;
+			}
+			else
+				m.insert(make_pair(arr[j], 1));
+
+		}
+		sort(arr.begin(), arr.end());
+		for (it = m.begin(); it != m.end(); it++)
+		{
+			if ((*it).first == arr[0] || (*it).first == arr[arr.size() - 1])
+			{
+				if (arr.size() == 1 || (*it).first == arr[arr.size() - 1]) {
+					if ((*it).second > 2)
+						count += (*it).second - 2;
+				}
+				else
+					if ((*it).first == arr[0])
+						if ((*it).second > 1)
+							count += (*it).second - 1;
+
+			}
+			else
+				if((*it).second > 1)
+					count += (*it).second - 1;
+
+
+		}
+		cout << count<<endl;
+		count = 0;
+		m.clear();
+		arr.clear();
+
+	}
+
+	
+
+	getchar();
+	getchar();
+	
+	return 0;
+}
